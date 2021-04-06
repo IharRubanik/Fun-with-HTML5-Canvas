@@ -1,49 +1,50 @@
-const canvas = document.querySelector('#draw');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-ctx.strokeStyle = '#BADA55';
-ctx.lineJoin = 'round';
-ctx.lineCap = 'round';
-ctx.lineWidth = 100;
+let
+    canv = document.getElementById('canvas'),
+    ctx = canv.getContext('2d'),
+    isMouseDown = false,
+    input = document.getElementById('input'),
+    dot = document.getElementById('dot'),
+    v;
+    
+  
+    
+    
 
-let isDrawing = false;
-let lastX = 0;
-let lastY = 0;
-let hue = 0;
-let direction = true;
+    canv.width = window.innerWidth;
+    canv.height = window.innerHeight - 50;
+   
 
-function draw(e) {
-  if (!isDrawing) return;
-  ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
-  ctx.beginPath();
-  ctx.moveTo(lastX, lastY);
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-  [lastX, lastY] = [e.offsetX, e.offsetY];
 
-  hue++;
-  if (hue >= 360) {
-    hue = 0;
-  }
-  if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
-    direction = !direction;
-  }
+  //code
+  input.addEventListener('input', function() {
+    v = this.value;
+ 
+  });
 
-  if(direction) {
-    ctx.lineWidth++;
-  } else {
-    ctx.lineWidth--;
-  }
 
+
+
+
+  canv.addEventListener('mousedown', function() {
+    isMouseDown = true;
+  });
+  canv.addEventListener('mouseup', function(){
+    isMouseDown = false;
+    ctx.beginPath();
+  });
+  ctx.lineWidth = 10 * 2; 
+  canv.addEventListener ('mousemove', function(e) {
+      if ( isMouseDown ) 
+      {  
+    ctx.lineTo(e.clientX, e.clientY);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(e.clientX, e.clientY, 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(e.clientX, e.clientY);
 }
 
-canvas.addEventListener('mousedown', (e) => {
-  isDrawing = true;
-  [lastX, lastY] = [e.offsetX, e.offsetY];
-});
-
-
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseup', () => isDrawing = false);
-canvas.addEventListener('mouseout', () => isDrawing = false);
+  });
