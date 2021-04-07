@@ -14,7 +14,7 @@ canv.height = window.innerHeight - 50;
 
 //code
 clear.addEventListener('click', function() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canv.width, canv.height);
 });
 
 color.addEventListener('input', function () {
